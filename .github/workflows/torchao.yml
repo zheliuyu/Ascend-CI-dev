@@ -32,11 +32,13 @@ on:
   pull_request:
     paths:
       - '.github/workflows/torchao.yml'
+      - 'script/npu_xdist.py'
   push:
     branches: 
       - 'main'
     paths:
       - '.github/workflows/torchao.yml'
+      - 'script/npu_xdist.py'
   
   schedule:
     - cron: "0 0 * * *"
@@ -148,4 +150,5 @@ jobs:
       - name: Run unit tests
         working-directory: torchao
         run: |
-          pytest -v -s test/quantization/quantize_/workflows/int4/test_int4_plain_int32_tensor.py
+          export PYTHONPATH="${GITHUB_WORKSPACE}/script${PYTHONPATH:+:$PYTHONPATH}"
+          pytest -p npu_xdist -v -s test/quantization/quantize_/workflows/int4/test_int4_plain_int32_tensor.py

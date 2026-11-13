@@ -273,6 +273,10 @@ jobs:
         run: |
           set -o pipefail
           unset TORCH_CUDA_ARCH_LIST # only jit compile for current arch
+          # One xdist worker per NPU on the non-distributed shards. Workers that
+          # are not under xdist still see the full ASCEND_RT_VISIBLE_DEVICES list.
+          export PYTHONPATH="${GITHUB_WORKSPACE}/script${PYTHONPATH:+:$PYTHONPATH}"
+          export PYTEST_ADDOPTS="-p npu_xdist${PYTEST_ADDOPTS:+ $PYTEST_ADDOPTS}"
           ulimit -n 1048575 || true
           rm -rf /tmp/deepspeed-pytest
           : > "$GITHUB_WORKSPACE/failing-tests.txt"

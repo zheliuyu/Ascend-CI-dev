@@ -134,4 +134,5 @@ jobs:
       - name: Run torchtitan unittest
         working-directory: torchtitan
         run: |
-          pytest ./tests/unit_tests --cov=. --cov-report=xml --durations=20 -vv
+          export PYTHONPATH="${GITHUB_WORKSPACE}/script${PYTHONPATH:+:$PYTHONPATH}"
+          pytest -p npu_xdist ./tests/unit_tests --cov=. --cov-report=xml --durations=20 -vv

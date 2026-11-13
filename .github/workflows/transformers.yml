@@ -6,11 +6,11 @@ on:
       - main
     paths:
       - ".github/workflows/transformers.yml"
-      - ".github/npu_xdist.py"
+      - "script/npu_xdist.py"
   pull_request:
     paths:
       - ".github/workflows/transformers.yml"
-      - ".github/npu_xdist.py"
+      - "script/npu_xdist.py"
   workflow_dispatch:
     inputs:
       runner:
@@ -107,7 +107,7 @@ jobs:
         NPUS="${RUNNER_LABEL##*-}"
         [[ "$NPUS" =~ ^[0-9]+$ ]] || NPUS=2
         export ASCEND_RT_VISIBLE_DEVICES="$(python3 -c "print(','.join(map(str, range($NPUS))))")"
-        export PYTHONPATH="${GITHUB_WORKSPACE}/.github${PYTHONPATH:+:$PYTHONPATH}"
+        export PYTHONPATH="${GITHUB_WORKSPACE}/script${PYTHONPATH:+:$PYTHONPATH}"
         XDIST=()
         if [ "$NPUS" -gt 1 ]; then
           XDIST=(-n "$NPUS" --dist load)

@@ -202,6 +202,8 @@ jobs:
         working-directory: deepspeed/tests/unit
         run: |
           unset TORCH_CUDA_ARCH_LIST # only jit compile for current arch
+          export PYTHONPATH="${GITHUB_WORKSPACE}/script${PYTHONPATH:+:$PYTHONPATH}"
+          export PYTEST_ADDOPTS="-p npu_xdist${PYTEST_ADDOPTS:+ $PYTEST_ADDOPTS}"
 
           # test_ds_init.py::test_literal_device hardcodes a device-name whitelist
           # ('xpu'/'cuda'); extend it so the same literal-device check applies on NPU
@@ -339,6 +341,8 @@ jobs:
         working-directory: deepspeed/tests/unit
         run: |
           unset TORCH_CUDA_ARCH_LIST # only jit compile for current arch
+          export PYTHONPATH="${GITHUB_WORKSPACE}/script${PYTHONPATH:+:$PYTHONPATH}"
+          export PYTEST_ADDOPTS="-p npu_xdist${PYTEST_ADDOPTS:+ $PYTEST_ADDOPTS}"
 
           # test_ds_init.py::test_literal_device hardcodes a device-name whitelist
           # ('xpu'/'cuda'); extend it so the same literal-device check applies on NPU
